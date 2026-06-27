@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // ===== AUDIO (tiny pops & sparkle stream) =====
+    // ===== AUDIO SYST – SPARKLE/POPS =====
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
     window.playPop = function () {
@@ -99,19 +99,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // ===== MODAL (TEXT) =====
+    // ===== MODAL HOOK REFERENCES =====
     const modal = document.getElementById('projectModal');
     const modalTitle = document.getElementById('modalTitle');
     const modalDesc = document.getElementById('modalDescription');
     const modalTag = document.getElementById('modalTag');
     const textContainer = document.getElementById('modalTextContent');
     const embedContainer = document.getElementById('instagramEmbedContainer');
+    const localGalleryContainer = document.getElementById('localGalleryContainer');
 
     window.openModal = function (title, desc, tag) {
         playSparkleStream();
         modal.classList.remove('instagram-active'); 
         textContainer.style.display = 'block';
         embedContainer.style.display = 'none';
+        localGalleryContainer.style.display = 'none';
         modalTitle.innerText = title;
         modalDesc.innerText = desc;
         modalTag.innerText = tag;
@@ -119,36 +121,111 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.style.overflow = 'hidden';
     };
 
-    // ===== MODAL (INSTAGRAM EMBED – GRID & SCROLL FIXED) =====
+    // ===== MODAL (INSTAGRAM EMBED GRID VIEW - IMAGES) =====
     window.openInstagramModal = function() {
         playSparkleStream();
 
-        const textContainer = document.getElementById('modalTextContent');
-        const embedContainer = document.getElementById('instagramEmbedContainer');
         textContainer.style.display = 'none';
+        localGalleryContainer.style.display = 'none';
         embedContainer.style.display = 'block';
+
+        document.getElementById('instagramHeaderTitle').innerText = 'Original Painting Sales';
+        document.getElementById('instagramHeaderDesc').innerText = 'Real projects shared on Instagram';
 
         const gridContainer = document.getElementById('instagramPostsGrid');
         gridContainer.innerHTML = '';
 
         const postUrls = [
-            'https://www.instagram.com/p/CTKu-B3qMLQ/?img_index=1',
             'https://www.instagram.com/p/DA6Qm52q9jE/?img_index=1',
             'https://www.instagram.com/p/DHZt-QjtXal/',
             'https://www.instagram.com/p/DIeaoF5tX54/',
             'https://www.instagram.com/p/Crs7lMWKTx7/',
-            'https://www.instagram.com/p/DNZArBstxhQ/',
-            'https://www.instagram.com/p/CVh-PY4KXmu/?img_index=1',
-            'https://www.instagram.com/p/CUS2Rs1KSGN/?img_index=1',
+            'https://www.instagram.com/p/DNZArBstxhQ/'
         ];
 
-        postUrls.forEach(url => {
+        loadInstagramEmbeds(postUrls, gridContainer);
+    };
+
+    // ===== MODAL (INSTAGRAM EMBED GRID VIEW - REELS) =====
+    window.openReelModal = function() {
+        playSparkleStream();
+
+        textContainer.style.display = 'none';
+        localGalleryContainer.style.display = 'none';
+        embedContainer.style.display = 'block';
+
+        document.getElementById('instagramHeaderTitle').innerText = 'Personal Brand & Content Strategy';
+        document.getElementById('instagramHeaderDesc').innerText = 'Lifestyle, art tutorials, and university storytelling reels';
+
+        const gridContainer = document.getElementById('instagramPostsGrid');
+        gridContainer.innerHTML = '';
+
+        const reelUrls = [
+            'https://www.instagram.com/p/DNg0H-TNPpN/',
+            'https://www.instagram.com/p/DNtJZU8WnL6/',
+            'https://www.instagram.com/p/DOoLXoujc1_/',
+            'https://www.instagram.com/p/DXRawnNjeIx/',
+            'https://www.instagram.com/p/DUYHPUMDZ9M/',
+            'https://www.instagram.com/p/DYekb6XtjZ5/',
+            'https://www.instagram.com/p/DPHCFFKjXtg/'
+        ];
+
+        loadInstagramEmbeds(reelUrls, gridContainer);
+    };
+
+    // ===== MODAL (LOCAL GALLERY VIEWER - NEW FOR COMMUNITY GROWTH) =====
+    window.openCommunityGrowthModal = function() {
+        playSparkleStream();
+
+        // Toggle elements visibility
+        textContainer.style.display = 'none';
+        embedContainer.style.display = 'none';
+        localGalleryContainer.style.display = 'block';
+
+        const gridContainer = document.getElementById('localGalleryGrid');
+        gridContainer.innerHTML = '';
+
+        // Add your target image filenames here. They will search inside your local img/ folder!
+        const images = [
+            'img/1.jpeg',
+            'img/2.jpeg',
+            'img/3.jpeg',
+            'img/4.jpeg',
+            'img/5.jpeg',
+            'img/6.jpeg'
+        ];
+
+        // Loop through and append image assets safely
+        images.forEach(src => {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'gallery-item-wrapper';
+            
+            const img = document.createElement('img');
+            img.src = src;
+            img.alt = 'Community Growth Campaign Metric';
+            // Fail-safe placeholder if image is missing during setup
+            img.onerror = function() {
+                this.src = 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=500&q=80';
+            };
+
+            wrapper.appendChild(img);
+            gridContainer.appendChild(wrapper);
+        });
+
+        modal.classList.add('active');
+        modal.classList.add('instagram-active'); // Expands width to 960px for a clean wide desktop layout
+        document.body.style.overflow = 'hidden';
+    };
+
+    // Shared Instagram embedding block
+    function loadInstagramEmbeds(urls, container) {
+        urls.forEach(url => {
             const blockquote = document.createElement('blockquote');
             blockquote.className = 'instagram-media';
             blockquote.setAttribute('data-instgrm-permalink', url);
             blockquote.setAttribute('data-instgrm-version', '14');
             blockquote.innerHTML = `<a href="${url}" target="_blank">View this post on Instagram</a>`;
-            gridContainer.appendChild(blockquote);
+            container.appendChild(blockquote);
         });
 
         if (!document.querySelector('script[src="//platform.instagram.com/en_US/embeds.js"]')) {
@@ -165,7 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.classList.add('active');
         modal.classList.add('instagram-active'); 
         document.body.style.overflow = 'hidden';
-    };
+    }
 
     // ===== CLOSE MODAL =====
     window.closeModal = function () {
@@ -178,7 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'Escape') closeModal();
     });
 
-    // ===== SPARKLE CANVAS =====
+    // ===== ARTISTIC MOUSE TRAIL SPARKLE CANVAS =====
     const canvas = document.getElementById('sparkle-canvas');
     if (canvas) {
         const ctx = canvas.getContext('2d');
@@ -191,14 +268,14 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        const colorSet = ['#FFADAD', '#FBC4AB', '#F7E89E', '#B8E0D2', '#9AD0F5', '#C5B4E3', '#FF8A7A'];
+        const colorSet = ['#ff3366', '#00b4d8', '#ffb703', '#06d6a0', '#9b5de5', '#ff5e6c', '#00f5d4'];
 
         window.addEventListener('mousemove', (e) => {
             if (Math.random() < 0.4) {
                 particles.push({
                     x: e.clientX,
                     y: e.clientY,
-                    size: 3 + Math.random() * 10,
+                    size: 3 + Math.random() * 8,
                     color: colorSet[Math.floor(Math.random() * colorSet.length)],
                     alpha: 1,
                     vx: (Math.random() - 0.5) * 4.5,
@@ -215,14 +292,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 p.y += p.vy;
                 p.alpha -= 0.016;
                 if (p.alpha <= 0) { particles.splice(i, 1); continue; }
-                ctx.globalAlpha = p.alpha * 0.8;
+                ctx.globalAlpha = p.alpha * 0.9;
                 ctx.fillStyle = p.color;
-                ctx.shadowColor = 'rgba(0,0,0,0.1)';
-                ctx.shadowBlur = 10;
+                ctx.shadowColor = p.color;
+                ctx.shadowBlur = 6;
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
                 ctx.fill();
             }
+            ctx.shadowBlur = 0; 
             requestAnimationFrame(animateSparkles);
         }
         animateSparkles();

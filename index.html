@@ -7,11 +7,15 @@
     <link rel="stylesheet" href="css/style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:opsz,wght..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 </head>
 <body>
 
+    <!-- Sparkle Animation Layer -->
+    <canvas id="sparkle-canvas" style="position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:9999;"></canvas>
+
+    <!-- ===== NAVIGATION ===== -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <div class="nav-brand">
@@ -35,6 +39,7 @@
         </div>
     </nav>
 
+    <!-- ===== HERO ===== -->
     <section class="hero" id="hero">
         <div class="hero-overlay"></div>
         <div class="hero-content">
@@ -70,6 +75,7 @@
         </div>
     </section>
 
+    <!-- ===== ABOUT ===== -->
     <section class="about" id="about">
         <div class="container">
             <div class="about-grid">
@@ -112,6 +118,7 @@
         </div>
     </section>
 
+    <!-- ===== PORTFOLIO ===== -->
     <section class="portfolio" id="portfolio">
         <div class="container">
             <div class="section-header">
@@ -127,6 +134,9 @@
                 <button class="filter-btn" data-filter="art">
                     <i class="fas fa-paint-brush"></i> Art
                 </button>
+                <button class="filter-btn" data-filter="marketing">
+                    <i class="fas fa-chart-line"></i> Marketing
+                </button>
                 <button class="filter-btn" data-filter="about">
                     <i class="fas fa-user"></i> About
                 </button>
@@ -134,6 +144,7 @@
 
             <div class="portfolio-grid" id="portfolioGrid">
 
+                <!-- Art 1 (Instagram Embed Trigger) -->
                 <div class="portfolio-item" data-category="art">
                     <div class="portfolio-card" onclick="openInstagramModal()">
                         <div class="card-img">
@@ -148,8 +159,9 @@
                     </div>
                 </div>
 
+                <!-- Marketing 1 -->
                 <div class="portfolio-item" data-category="marketing">
-                    <div class="portfolio-card" onclick="openModal('Personal Brand &amp; Content Strategy', 'Built a distinct platform focusing on lifestyle, art tutorials, university experiences, and authentic storytelling — engaging a growing audience.', 'Digital Engagement')">
+                    <div class="portfolio-card" onclick="openReelModal()">
                         <div class="card-img">
                             <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=600&q=80" alt="Content Strategy" />
                             <span class="card-tag">Content Creation</span>
@@ -162,6 +174,22 @@
                     </div>
                 </div>
 
+                <!-- Marketing 2 (Updated to open Local Image Gallery) -->
+                <div class="portfolio-item" data-category="marketing">
+                    <div class="portfolio-card" onclick="openCommunityGrowthModal()">
+                        <div class="card-img">
+                            <img src="https://images.unsplash.com/photo-1605721911519-3dfeb3be25e7?auto=format&fit=crop&w=600&q=80" alt="Community Growth" />
+                            <span class="card-tag">Audience Growth</span>
+                        </div>
+                        <div class="card-body">
+                            <h3>Insights / Engagement </h3>
+                            <p>Built a thriving, engaged community from zero.</p>
+                            <span class="card-arrow"><i class="fas fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- About / Education -->
                 <div class="portfolio-item" data-category="about">
                     <div class="portfolio-card about-card" onclick="openModal('Education Journey', 'Pursuing a Bachelor of Arts in Fashion Marketing at Pakistan Institute of Fashion &amp; Design (2025–Present). Previously completed F.Sc Pre-Medical at Garrison College for Girls, Lahore Cantt.', 'Academic')">
                         <div class="card-img">
@@ -176,6 +204,7 @@
                     </div>
                 </div>
 
+                <!-- About / Skills -->
                 <div class="portfolio-item" data-category="about">
                     <div class="portfolio-card about-card" onclick="openModal('Creative Skillset', 'Visual Storytelling · Content Strategy · Audience Engagement · Creative Thinking · Problem Solving · Adobe Illustrator · Adobe Photoshop · Canva Assets', 'Skills')">
                         <div class="card-img">
@@ -194,6 +223,7 @@
         </div>
     </section>
 
+    <!-- ===== SKILLS ===== -->
     <section class="skills" id="skills">
         <div class="container">
             <div class="section-header">
@@ -235,6 +265,7 @@
         </div>
     </section>
 
+    <!-- ===== CONTACT ===== -->
     <section class="contact" id="contact">
         <div class="container">
             <div class="contact-wrapper">
@@ -263,6 +294,7 @@
         </div>
     </section>
 
+    <!-- ===== FOOTER ===== -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
@@ -287,30 +319,45 @@
         </div>
     </footer>
 
+    <!-- ===== MODAL WINDOW ===== -->
     <div class="modal" id="projectModal" onclick="closeModal()">
         <div class="modal-content" onclick="event.stopPropagation()">
             <button class="modal-close" onclick="closeModal()">
                 <i class="fas fa-times"></i>
             </button>
             <div class="modal-body">
+                <!-- Text layout frame -->
                 <div id="modalTextContent">
                     <span class="modal-tag" id="modalTag">Tag</span>
                     <h2 id="modalTitle">Project Title</h2>
                     <p id="modalDescription">Description</p>
                 </div>
 
+                <!-- Instagram dynamic grid container -->
                 <div id="instagramEmbedContainer" style="display:none;">
                     <div class="instagram-header">
                         <i class="fab fa-instagram"></i>
-                        <h3>Original Painting Sales</h3>
-                        <p>Real projects shared on Instagram</p>
+                        <h3 id="instagramHeaderTitle">Project Title</h3>
+                        <p id="instagramHeaderDesc">Project Subtitle</p>
                     </div>
                     <div id="instagramPostsGrid"></div>
                 </div>
+
+                <!-- Local Gallery Grid container (New!) -->
+                <div id="localGalleryContainer" style="display:none;">
+                    <div class="gallery-header">
+                        <i class="fas fa-users"></i>
+                        <h3 id="galleryHeaderTitle">Insights / Engagement</h3>
+                        <p id="galleryHeaderDesc">Analytics, strategies, and design assets from our audience growth campaigns.</p>
+                    </div>
+                    <div id="localGalleryGrid"></div>
+                </div>
+
             </div>
         </div>
     </div>
 
+    <!-- ===== JAVASCRIPT ===== -->
     <script src="js/script.js"></script>
 </body>
 </html>
