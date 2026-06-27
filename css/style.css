@@ -6,17 +6,17 @@
 }
 
 :root {
-    --bg-cream: #faf5ef;
-    --bg-light: #fdf9f6;
-    --text-dark: #1f1a16;
-    --text-muted: #5a4f47;
-    --accent-terracotta: #c97b5a;
-    --accent-sage: #8a9a7b;
-    --accent-gold: #d4b483;
-    --accent-soft: #e8d5c4;
-    --border-light: #e3d8cd;
-    --shadow-soft: 0 12px 30px rgba(0, 0, 0, 0.06);
-    --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.10);
+    --bg-cream: #f3f4f9;            /* Ultra modern gallery studio backdrop */
+    --bg-light: #ffffff;            /* Crisp high-contrast canvas frames */
+    --text-dark: #0b0c16;           /* Velvet deep midnight layout typography */
+    --text-muted: #505673;          /* Creative slate accent shadow color */
+    --accent-terracotta: #ff4a73;   /* Primary bold electric neon rose-coral */
+    --accent-sage: #06d6a0;         /* Secondary lively mint-emerald stroke */
+    --accent-gold: #ffb703;         /* Vibrant luminous sunburst marigold */
+    --accent-soft: #ffeef2;         /* Sweet pastel pink-wash text base tags */
+    --border-light: #e4e7f2;        /* Modern clean geometric border grids */
+    --shadow-soft: 0 12px 35px rgba(11, 12, 22, 0.05);
+    --shadow-hover: 0 24px 50px rgba(255, 74, 115, 0.18); /* Colorful electric aura shadow glow */
     --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 

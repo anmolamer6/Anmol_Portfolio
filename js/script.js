@@ -132,6 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
         gridContainer.innerHTML = '';
 
         const postUrls = [
+            'https://www.instagram.com/p/CTKu-B3qMLQ/?img_index=1',
             'https://www.instagram.com/p/DA6Qm52q9jE/?img_index=1',
             'https://www.instagram.com/p/DHZt-QjtXal/',
             'https://www.instagram.com/p/DIeaoF5tX54/',
