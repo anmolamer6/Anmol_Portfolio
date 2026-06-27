@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anmol Ka Art Dekho | Creative Portfolio</title>
+    <!-- Cute Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #FFF5EB; 
+            --panel-bg: #ffffff;
+            --candy-pink: #FFADAD;
+            --apricot-orange: #FFD6A5;
+            --banana-yellow: #FDFFB6;
+            --mint-green: #CAFFBF;
+            --sky-blue: #9BF6FF;
+            --periwinkle: #A0C4FF;
+            --text-dark: #3D342E;
+            --border-width: 3.5px;
+            --card-shadow: 6px 6px 0px var(--text-dark);
+        }
+
+        /* Dark Mode overrides */
+        [data-theme="dark"] {
+            --bg-color: #251F1C;
+            --panel-bg: #352B25;
+            --text-dark: #FFF5EB;
+            --card-shadow: 6px 6px 0px #FFADAD;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Fredoka', sans-serif;
+            color: var(--text-dark);
+            transition: background-color 0.4s ease, border-color 0.4s ease;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(var(--apricot-orange) 2px, transparent 2px),
+                radial-gradient(var(--sky-blue) 2px, transparent 2px);
+            background-size: 32px 32px;
+            background-position: 0 0, 16px 16px;
+            overflow-x: hidden;
+            padding: 15px;
+        }
+
+        #canvas-sparkles {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        /* Interactive Themes Button Container */
+        .controls-row {
+            max-width: 1000px;
+            margin: 10px auto;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .theme-toggle {
+            background: var(--panel-bg);
+            border: var(--border-width) solid var(--text-dark);
+            padding: 8px 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 3px 3px 0px var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .theme-toggle:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0px var(--text-dark); }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            max-width: 1000px;
+            margin: 0 auto 30px auto;
+            background: var(--panel-bg);
+            border: var(--border-width) solid var(--text-dark);
+            border-radius: 30px;
+            box-shadow: var(--card-shadow);
+            position: relative;
+        }
+
+        .profile-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: var(--border-width) solid var(--text-dark);
+            box-shadow: 6px 6px 0px var(--candy-pink);
+            object-fit: cover;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .profile-container:hover .profile-pic {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .sticker {
+            position: absolute;
+            font-size: 2.5rem;
+            animation: float 3s ease-in-out infinite;
+            user-select: none;
+        }
+        .sticker-1 { top: -20px; left: -35px; animation-delay: 0s; }
+        .sticker-2 { bottom: 0px; right: -35px; animation-delay: 1.5s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(-8deg); }
+            50% { transform: translateY(-12px) rotate(8deg); }
+        }
+
+        h1 {
+            font-size: clamp(2rem, 6vw, 3.2rem);
+            margin-bottom: 8px;
+            text-shadow: 3px 3px 0px var(--apricot-orange);
+        }
+
+        .subtitle {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            display: inline-block;
+            background: var(--banana-yellow);
+            padding: 2px 14px;
+            border-radius: 8px;
+            border: 2px dashed #3D342E;
+            color: #3D342E;
+        }
+
+        .insta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--panel-bg);
+            border: 2.5px solid var(--text-dark);
+            padding: 8px 18px;
+            border-radius: 15px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            text-decoration: none;
+            box-shadow: 4px 4px 0px var(--text-dark);
+            margin: 10px 0;
+            transition: 0.2s;
+        }
+        .insta-btn:hover { background: var(--candy-pink); transform: translate(-2px, -2px); box-shadow: 6px 6px 0px var(--text-dark); }
+
+        /* Highly Interactive Tab & Filters System */
+        .filter-row {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 30px 0;
+        }
+
+        .filter-btn {
+            background: var(--panel-bg);
+            border: 3px solid var(--text-dark);
+            padding: 10px 22px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 20px;
+            cursor: pointer;
+            box-shadow: 4px 4px 0px var(--text-dark);
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            transform: translate(-3px, -3px);
+            box-shadow: 7px 7px 0px var(--text-dark);
+        }
+        .filter-btn.active[data-target="all"] { background-color: var(--sky-blue); }
+        .filter-btn.active[data-target="art"] { background-color: var(--candy-pink); }
+        .filter-btn.active[data-target="marketing"] { background-color: var(--mint-green); }
+        .filter-btn.active[data-target="about"] { background-color: var(--apricot-orange); }
+
+        /* Responsive Portfolio Grid with Animation classes */
+        .portfolio-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            padding: 10px;
+        }
+
+        .grid-item {
+            display: block;
+            animation: popIn 0.4s ease forwards;
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .polaroid {
+            background: #ffffff;
+            padding: 15px 15px 25px 15px;
+            border: 3px solid #3D342E;
+            box-shadow: 6px 6px 0px rgba(0,0,0,0.1);
+            transform: rotate(var(--r, 1deg));
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+            cursor: pointer;
+        }
+        .polaroid * { color: #3D342E !important; }
+
+        .polaroid:hover {
+            transform: rotate(0deg) scale(1.05) translateY(-5px);
+            box-shadow: 12px 12px 0px var(--periwinkle);
+            z-index: 5;
+        }
+
+        .polaroid-img-frame {
+            width: 100%;
+            height: 230px;
+            background: #fafafa;
+            border: 2.5px solid #3D342E;
+            overflow: hidden;
+        }
+
+        .polaroid img {
+            width: 100%; height: 100%; object-fit: cover;
+        }
+
+        .polaroid-caption {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+
+        .project-tag {
+            display: inline-block;
+            font-size: 0.8rem;
+            padding: 4px 10px;
+            border-radius: 10px;
+            margin-top: 6px;
+            border: 2px solid #3D342E;
+            font-weight: 600;
+            background-color: var(--banana-yellow);
+        }
+
+        /* Info Section Blocks */
+        .scrapbook-card {
+            background: var(--panel-bg);
+            border: 3px solid var(--text-dark);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+        }
+        .card-edu { background-color: #FFFDF0; }[data-theme="dark"] .card-edu { background-color: var(--panel-bg); }
+
+        .skills-container { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
+        .skill-badge {
+            border: 2px solid var(--text-dark);
+            padding: 6px 14px;
+            border-radius: 15px;
+            font-weight: 600;
+        }
+        .skill-badge:nth-child(3n+1) { background: var(--candy-pink); }
+        .skill-badge:nth-child(3n+2) { background: var(--sky-blue); }
+        .skill-badge:nth-child(3n+3) { background: var(--mint-green); }
+
+        /* Lightbox Overlay */
+        .modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 2000; opacity: 0; pointer-events: none;
+            transition: opacity 0.3s ease;
+            padding: 15px;
+        }
+        .modal.active { opacity: 1; pointer-events: auto; }
+        .modal-content {
+            background: #fff;
+            border: 4px solid #3D342E;
+            border-radius: 24px;
+            max-width: 550px; width: 100%;
+            padding: 25px; box-shadow: 8px 8px 0px #3D342E;
+            transform: scale(0.8); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.25);
+        }
+        .modal.active .modal-content { transform: scale(1); }
+        .modal-content * { color: #3D342E !important; }
+        .close-modal {
+            float: right; background: var(--candy-pink); border: 2px solid #3D342E;
+            width: 35px; height: 35px; border-radius: 50%; cursor: pointer; font-weight: bold;
+        }
+
+        /* Footer Connection Space */
+        .connect-footer {
+            text-align: center;
+            max-width: 1000px;
+            margin: 50px auto 20px auto;
+            padding: 40px 20px;
+            background: var(--banana-yellow);
+            border: 4px dashed #3D342E;
+            border-radius: 25px;
+            box-shadow: 6px 6px 0px rgba(0,0,0,0.05);
+        }
+        .connect-footer * { color: #3D342E !important; }
+
+        .email-link {
+            display: inline-block; margin-top: 15px; font-size: 1.4rem;
+            border: 2.5px solid #3D342E; background: #fff; padding: 10px 24px;
+            border-radius: 20px; font-weight: bold; text-decoration: none; box-shadow: 4px 4px 0px #3D342E;
+        }
+        .email-link:hover { background: var(--sky-blue); }
+
+        /* Utility class to hide element tags safely */
+        .hidden-item { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <!-- WebAudio Sound Elements (Synthesized via JS, zero external sound files needed!) -->
+    <canvas id="canvas-sparkles"></canvas>
+
+    <div class="controls-row">
+        <button class="theme-toggle" onclick="toggleTheme()" onmouseenter="playPop()">
+            <span id="theme-icon">✨</span> <span id="theme-text">Day Mode</span>
+        </button>
+    </div>
+
+    <header>
+        <div class="profile-container" onclick="playSparkleStream()">
+            <span class="sticker sticker-1">🦋</span>
+            <span class="sticker sticker-2">🎨</span>
+            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=300&q=80" alt="Anmol Amer" class="profile-pic">
+        </div>
+        <h1>Anmol Amer</h1>
+        <p class="subtitle">@anmolkaartdekho</p>[cite: 1]
+        <br>
+        <a href="https://www.instagram.com/anmolkaartdekho/" target="_blank" class="insta-btn" onmouseenter="playPop()">📸 Visit Live Instagram Feed</a>[cite: 1]
+        
+        <p class="intro-text">
+            Blending creativity, strategy, and storytelling to build engaging digital experiences[cite: 1]. Based in Lahore, Pakistan[cite: 1]. All verified content accurately reflects <strong>Anmol's Resume.pdf</strong>[cite: 1].
+        </p>
+    </header>
+
+    <!-- INTERACTIVE FILTER BAR -->
+    <div class="filter-row">
+        <button class="filter-btn active" data-target="all" onclick="filterPortfolio('all')" onmouseenter="playPop()">🌈 Show All</button>
+        <button class="filter-btn" data-target="art" onclick="filterPortfolio('art')" onmouseenter="playPop()">🎨 Original Artwork</button>
+        <button class="filter-btn" data-target="marketing" onclick="filterPortfolio('marketing')" onmouseenter="playPop()">📈 Content & Growth</button>
+        <button class="filter-btn" data-target="about" onclick="filterPortfolio('about')" onmouseenter="playPop()">🧸 About / Bio</button>
+    </div>
+
+    <!-- RESPONSIVE GRID SPACE -->
+    <main class="portfolio-container">
+        <div class="gallery-grid" id="main-grid">
+            
+            <!-- Art Project Card -->
+            <div class="grid-item" data-type="art">
+                <div class="polaroid" style="--r: -2deg;" onclick="openProject('Artwork Marketing & Sales Initiative', 'Marketed, promoted, and sold original paintings through social media networks and strategic personal branding initiatives[cite: 1].', 'Fine Arts Canvas')" onmouseenter="playPop()">
+                    <div class="polaroid-img-frame">
+                        <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&w=500&q=80" alt="Painting Display">
+                    </div>
+                    <div class="polaroid-caption">
+                        Original Painting Sales[cite: 1]
+                        <br><span class="project-tag">Art Business</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Marketing Project Card -->
+            <div class="grid-item" data-type="marketing">
+                <div class="polaroid" style="--r: 2deg;" onclick="openProject('Personal Brand Platform & Content Strategy', 'Created and actively managed a distinctive personal platform focusing closely on lifestyle, art tutorials, university experiences, and engaging digital storytelling[cite: 1].', 'Digital Engagement')" onmouseenter="playPop()">
+                    <div class="polaroid-img-frame">
+                        <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=500&q=80" alt="Workspace Concept">
+                    </div>
+                    <div class="polaroid-caption">
+                        Lifestyle & Art Content[cite: 1]
+                        <br><span class="project-tag">Content Creation</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Marketing Project Card 2 -->
+            <div class="grid-item" data-type="marketing">
+                <div class="polaroid" style="--r: -1deg;" onclick="openProject('Social Media Growth Project', 'Developed customized content production timelines, designed viral reels, and fostered a high-interaction, supportive digital community space from scratch[cite: 1].', 'Audience Growth Analytics')" onmouseenter="playPop()">
+                    <div class="polaroid-img-frame">
+                        <img src="https://images.unsplash.com/photo-1605721911519-3dfeb3be25e7?auto=format&fit=crop&w=500&q=80" alt="Acrylic Splash Art">
+                    </div>
+                    <div class="polaroid-caption">
+                        Community Growth[cite: 1]
+                        <br><span class="project-tag">Audience Engagement</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- About / Resume Data Block (Acts seamlessly as responsive grid items) -->
+            <div class="grid-item scrapbook-card card-edu" data-type="about" style="grid-column: span 1;">
+                <h3 style="margin-bottom:10px;">🎓 Education Journey</h3>
+                <p><strong>Bachelor of Arts</strong></p>
+                <p style="font-size:0.9rem; opacity:0.8;">Pakistan Institute of Fashion & Design (08/2025 - Present)[cite: 1]</p>
+                <p style="font-size:0.85rem; margin-top:5px;">Focusing on Fashion Marketing, Merchandising, and Content Strategy[cite: 1].</p>
+                <hr style="margin:10px 0; border:1px dashed var(--text-dark); opacity:0.2;">
+                <p style="font-size:0.9rem;"><strong>Intermediate F.Sc Pre Medical</strong></p>
+                <p style="font-size:0.8rem; opacity:0.8;">Garrison College for Girls, Lahore Cantt[cite: 1]</p>
+            </div>
+
+            <div class="grid-item scrapbook-card" data-type="about">
+                <h3>⚡ Creative Skillsets</h3>
+                <div class="skills-container">
+                    <span class="skill-badge">Visual Storytelling[cite: 1]</span>
+                    <span class="skill-badge">Content Strategy[cite: 1]</span>
+                    <span class="skill-badge">Audience Engagement[cite: 1]</span>
+                    <span class="skill-badge">Creative Thinking[cite: 1]</span>
+                    <span class="skill-badge">Problem Solving[cite: 1]</span>
+                    <span class="skill-badge">Adobe Illustrator[cite: 1]</span>
+                    <span class="skill-badge">Adobe Photoshop[cite: 1]</span>
+                    <span class="skill-badge">Canva Assets[cite: 1]</span>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="connect-footer">
+        <h2>Let's Craft Something Magical Together! ✨📬</h2>
+        <p>Drop an inquiry line for commissions, collaborations, or content strategy needs:</p>
+        <a href="mailto:anmolamer6@gmail.com" class="email-link" onmouseenter="playPop()">anmolamer6@gmail.com[cite: 1]</a>
+    </footer>
+
+    <!-- RESPONSIVE POPUP LIGHTBOX MODAL -->
+    <div class="modal" id="projectModal" onclick="closeProject()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="close-modal" onclick="closeProject()">×</button>
+            <h2 id="modalTitle" style="font-size: 1.7rem; margin-bottom: 5px;">Project Title</h2>
+            <span id="modalTag" class="project-tag" style="background-color: var(--sky-blue);">Tag Info</span>
+            <p id="modalDescription" style="line-height: 1.6; font-size: 1.1rem; margin-top: 15px; border-top: 2px dashed #ccc; padding-top: 15px;">Detailed descriptions here...</p>
+        </div>
+    </div>
+
+    <script>
+        // WebAudio Sound Synthesizer Context (Zero assets or network lag!)
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playPop() {
+            let osc = audioCtx.createOscillator();
+            let gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.1);
+            
+            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.1);
+            
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.1);
+        }
+
+        function playSparkleStream() {
+            for(let i=0; i<5; i++) {
+                setTimeout(() => {
+                    let osc = audioCtx.createOscillator();
+                    let gain = audioCtx.createGain();
+                    osc.connect(gain); gain.connect(audioCtx.destination);
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(1000 + (Math.random()*600), audioCtx.currentTime);
+                    gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+                    gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.15);
+                    osc.start(); osc.stop(audioCtx.currentTime + 0.15);
+                }, i * 60);
+            }
+        }
+
+        // Live Grid Categorization/Filtering System 
+        function filterPortfolio(category) {
+            // Manage Active Button States
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
+            // Manage visible layout rows seamlessly
+            document.querySelectorAll('#main-grid .grid-item').forEach(item => {
+                if (category === 'all' || item.getAttribute('data-type') === category) {
+                    item.classList.remove('hidden-item');
+                } else {
+                    item.classList.add('hidden-item');
+                }
+            });
+        }
+
+        // Interactive Theme Toggle Handler 
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            if (currentTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'light');
+                document.getElementById('theme-icon').innerText = '✨';
+                document.getElementById('theme-text').innerText = 'Day Mode';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                document.getElementById('theme-icon').innerText = '🌙';
+                document.getElementById('theme-text').innerText = 'Night Mode';
+            }
+            playSparkleStream();
+        }
+
+        // Project popup modal logic
+        function openProject(title, description, tag) {
+            playSparkleStream();
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalDescription').innerText = description;
+            document.getElementById('modalTag').innerText = tag;
+            document.getElementById('projectModal').classList.add('active');
+        }
+
+        function closeProject() {
+            document.getElementById('projectModal').classList.remove('active');
+        }
+
+        // Dynamic Interactive Canvas Mouse Tracker
+        const canvas = document.getElementById('canvas-sparkles');
+        const ctx = canvas.getContext('2d');
+        let sparkles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        window.addEventListener('mousemove', (e) => {
+            if(Math.random() < 0.4) {
+                sparkles.push({
+                    x: e.clientX,
+                    y: e.clientY,
+                    size: Math.random() * 6 + 2,
+                    color: ['#FFADAD', '#FFD6A5', '#FDFFB6', '#CAFFBF', '#9BF6FF', '#A0C4FF'][Math.floor(Math.random() * 6)],
+                    alpha: 1,
+                    speedX: (Math.random() - 0.5) * 3,
+                    speedY: (Math.random() - 0.5) * 3
+                });
+            }
+        });
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for(let i = 0; i < sparkles.length; i++) {
+                let s = sparkles[i];
+                s.x += s.speedX;
+                s.y += s.speedY;
+                s.alpha -= 0.025;
+                ctx.globalAlpha = s.alpha;
+                ctx.fillStyle = s.color;
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            sparkles = sparkles.filter(s => s.alpha > 0);
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+</body>
+</html>
