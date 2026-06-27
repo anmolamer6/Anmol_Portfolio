@@ -154,8 +154,8 @@ document.addEventListener('DOMContentLoaded', () => {
         localGalleryContainer.style.display = 'none';
         embedContainer.style.display = 'block';
 
-        document.getElementById('instagramHeaderTitle').innerText = 'Personal Brand & Content Strategy';
-        document.getElementById('instagramHeaderDesc').innerText = 'Lifestyle, art tutorials, and university storytelling reels';
+        document.getElementById('instagramHeaderTitle').innerText = 'Personal Brand & Content Creation';
+        document.getElementById('instagramHeaderDesc').innerText = 'Storytelling through reels, tutorials & daily life.';
 
         const gridContainer = document.getElementById('instagramPostsGrid');
         gridContainer.innerHTML = '';
