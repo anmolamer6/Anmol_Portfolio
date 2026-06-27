@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Anmol Amer · Artistic Portfolio</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+</head>
+<body>
+
+    <!-- ===== NAVIGATION ===== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="#hero" class="brand-link">
+                    <span class="brand-icon">✦</span>
+                    <span class="brand-name">Anmol Amer</span>
+                </a>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#hero" class="nav-link active">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#portfolio" class="nav-link">Portfolio</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="badge-dot"></span>
+                <span>Artist · Strategist · Storyteller</span>
+            </div>
+            <h1 class="hero-title">
+                <span class="title-line">Anmol</span>
+                <span class="title-line accent">Amer</span>
+            </h1>
+            <p class="hero-subtitle">
+                <i class="fas fa-feather-alt"></i>
+                weaving creativity into every canvas &amp; campaign
+            </p>
+            <div class="hero-actions">
+                <a href="#portfolio" class="btn btn-primary">
+                    <i class="fas fa-eye"></i> View Portfolio
+                </a>
+                <a href="#contact" class="btn btn-outline">
+                    <i class="fas fa-paper-plane"></i> Let's Connect
+                </a>
+            </div>
+            <div class="hero-scroll">
+                <span>Scroll</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </div>
+        <div class="hero-deco">
+            <div class="deco-circle circle-1"></div>
+            <div class="deco-circle circle-2"></div>
+            <div class="deco-circle circle-3"></div>
+        </div>
+    </section>
+
+    <!-- ===== ABOUT ===== -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-image">
+                    <div class="about-img-wrapper">
+                        <img
+                        src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&q=80"
+                        alt="Anmol Amer"
+                        />
+                        <div class="img-ring"></div>
+                    </div>
+                </div>
+                <div class="about-text">
+                    <span class="section-tag">About the artist</span>
+                    <h2>Creativity <em>meets</em> strategy</h2>
+                    <p>
+                        I'm Anmol Amer — a Lahore-based creative soul with a passion for
+                        visual storytelling, content strategy, and the art of connection.
+                        Whether it's a brushstroke on canvas or a perfectly timed reel,
+                        I believe every piece of content tells a story worth sharing.
+                    </p>
+                    <p>
+                        Currently pursuing my Bachelor of Arts in Fashion Marketing at
+                        Pakistan Institute of Fashion &amp; Design, I blend academic insight
+                        with hands-on creativity to build brands that feel human.
+                    </p>
+                    <div class="about-stats">
+                        <div class="stat">
+                            <span class="stat-number">3+</span>
+                            <span class="stat-label">Years Creating</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">50+</span>
+                            <span class="stat-label">Projects Delivered</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">1K+</span>
+                            <span class="stat-label">Community Reach</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PORTFOLIO ===== -->
+    <section class="portfolio" id="portfolio">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">My work</span>
+                <h2>Featured <em>projects</em></h2>
+                <p>A curated selection of my art, content, and creative campaigns.</p>
+            </div>
+
+            <!-- filter -->
+            <div class="filter-row" id="filterRow">
+                <button class="filter-btn active" data-filter="all">
+                    <i class="fas fa-th-large"></i> All
+                </button>
+                <button class="filter-btn" data-filter="art">
+                    <i class="fas fa-paint-brush"></i> Art
+                </button>
+                <button class="filter-btn" data-filter="marketing">
+                    <i class="fas fa-chart-line"></i> Marketing
+                </button>
+                <button class="filter-btn" data-filter="about">
+                    <i class="fas fa-user"></i> About
+                </button>
+            </div>
+
+            <!-- grid -->
+            <div class="portfolio-grid" id="portfolioGrid">
+
+                <!-- Art 1 -->
+                <div class="portfolio-item" data-category="art">
+                    <div class="portfolio-card" onclick="openModal('Original Painting Sales', 'Marketed, promoted, and sold original paintings through social media and personal branding — turning passion into profit.', 'Art Business')">
+                        <div class="card-img">
+                            <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&w=600&q=80" alt="Original Painting" />
+                            <span class="card-tag">Art Business</span>
+                        </div>
+                        <div class="card-body">
+                            <h3>Original Painting Sales</h3>
+                            <p>Marketed &amp; sold original works via social media.</p>
+                            <span class="card-arrow"><i class="fas fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Marketing 1 -->
+                <div class="portfolio-item" data-category="marketing">
+                    <div class="portfolio-card" onclick="openModal('Personal Brand &amp; Content Strategy', 'Built a distinct platform focusing on lifestyle, art tutorials, university experiences, and authentic storytelling — engaging a growing audience.', 'Digital Engagement')">
+                        <div class="card-img">
+                            <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=600&q=80" alt="Content Strategy" />
+                            <span class="card-tag">Content Creation</span>
+                        </div>
+                        <div class="card-body">
+                            <h3>Lifestyle &amp; Art Content</h3>
+                            <p>Storytelling through reels, tutorials &amp; daily life.</p>
+                            <span class="card-arrow"><i class="fas fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Marketing 2 -->
+                <div class="portfolio-item" data-category="marketing">
+                    <div class="portfolio-card" onclick="openModal('Social Media Growth Project', 'Developed content calendars, designed viral reels, and fostered a high-interaction community from scratch — growing reach organically.', 'Audience Growth')">
+                        <div class="card-img">
+                            <img src="https://images.unsplash.com/photo-1605721911519-3dfeb3be25e7?auto=format&fit=crop&w=600&q=80" alt="Community Growth" />
+                            <span class="card-tag">Audience Growth</span>
+                        </div>
+                        <div class="card-body">
+                            <h3>Community Growth</h3>
+                            <p>Built a thriving, engaged community from zero.</p>
+                            <span class="card-arrow"><i class="fas fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- About / Education -->
+                <div class="portfolio-item" data-category="about">
+                    <div class="portfolio-card about-card" onclick="openModal('Education Journey', 'Pursuing a Bachelor of Arts in Fashion Marketing at Pakistan Institute of Fashion &amp; Design (2025–Present). Previously completed F.Sc Pre-Medical at Garrison College for Girls, Lahore Cantt.', 'Academic')">
+                        <div class="card-img">
+                            <div class="about-icon"><i class="fas fa-graduation-cap"></i></div>
+                            <span class="card-tag">Education</span>
+                        </div>
+                        <div class="card-body">
+                            <h3>Education Journey</h3>
+                            <p>Fashion Marketing · PIFD</p>
+                            <span class="card-arrow"><i class="fas fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- About / Skills -->
+                <div class="portfolio-item" data-category="about">
+                    <div class="portfolio-card about-card" onclick="openModal('Creative Skillset', 'Visual Storytelling · Content Strategy · Audience Engagement · Creative Thinking · Problem Solving · Adobe Illustrator · Adobe Photoshop · Canva Assets', 'Skills')">
+                        <div class="card-img">
+                            <div class="about-icon"><i class="fas fa-star"></i></div>
+                            <span class="card-tag">Skills</span>
+                        </div>
+                        <div class="card-body">
+                            <h3>Creative Skillset</h3>
+                            <p>Design, strategy &amp; storytelling</p>
+                            <span class="card-arrow"><i class="fas fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SKILLS ===== -->
+    <section class="skills" id="skills">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Expertise</span>
+                <h2>Tools &amp; <em>talents</em></h2>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-item">
+                    <div class="skill-icon"><i class="fas fa-pen-fancy"></i></div>
+                    <h4>Visual Storytelling</h4>
+                    <p>Turning ideas into compelling narratives</p>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-icon"><i class="fas fa-bullhorn"></i></div>
+                    <h4>Content Strategy</h4>
+                    <p>Planning &amp; executing impactful content</p>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-icon"><i class="fas fa-users"></i></div>
+                    <h4>Audience Engagement</h4>
+                    <p>Building communities that care</p>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-icon"><i class="fas fa-lightbulb"></i></div>
+                    <h4>Creative Thinking</h4>
+                    <p>Fresh perspectives &amp; original ideas</p>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-icon"><i class="fas fa-puzzle-piece"></i></div>
+                    <h4>Problem Solving</h4>
+                    <p>Creative solutions for real challenges</p>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-icon"><i class="fas fa-paint-brush"></i></div>
+                    <h4>Adobe Suite</h4>
+                    <p>Illustrator, Photoshop &amp; more</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="contact-wrapper">
+                <div class="contact-content">
+                    <span class="section-tag">Get in touch</span>
+                    <h2>Let's craft something <em>magical</em> together</h2>
+                    <p>
+                        Collaborations · Commissions · Content Strategy — I'm always
+                        open to new ideas and creative partnerships.
+                    </p>
+                    <div class="contact-links">
+                        <a href="mailto:anmolamer6@gmail.com" class="contact-link">
+                            <i class="fas fa-envelope"></i>
+                            anmolamer6@gmail.com
+                        </a>
+                        <a href="https://www.instagram.com/anmolkaartdekho/" target="_blank" class="contact-link">
+                            <i class="fab fa-instagram"></i>
+                            @anmolkaartdekho
+                        </a>
+                    </div>
+                </div>
+                <div class="contact-deco">
+                    <div class="deco-shape"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="brand-icon">✦</span>
+                    <span>Anmol Amer</span>
+                </div>
+                <p class="footer-tagline">creativity · strategy · storytelling · Lahore</p>
+                <div class="footer-social">
+                    <a href="https://www.instagram.com/anmolkaartdekho/" target="_blank" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="mailto:anmolamer6@gmail.com" aria-label="Email">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                    <a href="#" aria-label="Behance">
+                        <i class="fab fa-behance"></i>
+                    </a>
+                </div>
+                <p class="footer-copy">&copy; 2026 Anmol Amer · all rights reserved</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== MODAL ===== -->
+    <div class="modal" id="projectModal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-body">
+                <span class="modal-tag" id="modalTag">Tag</span>
+                <h2 id="modalTitle">Project Title</h2>
+                <p id="modalDescription">Description</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script src="js/script.js"></script>
+</body>
+</html>
