@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Close nav on link click (mobile)
     document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', () => {
             navLinks.classList.remove('active');
@@ -43,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ===== AUDIO (tiny pops & sparkle stream) =====
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-    window.playPop = function() {
+    window.playPop = function () {
         try {
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
@@ -56,10 +55,10 @@ document.addEventListener('DOMContentLoaded', () => {
             gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.07);
             osc.start();
             osc.stop(audioCtx.currentTime + 0.07);
-        } catch(e) {}
+        } catch (e) { }
     };
 
-    window.playSparkleStream = function() {
+    window.playSparkleStream = function () {
         for (let i = 0; i < 7; i++) {
             setTimeout(() => {
                 try {
@@ -73,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.1);
                     osc.start();
                     osc.stop(audioCtx.currentTime + 0.1);
-                } catch(e) {}
+                } catch (e) { }
             }, i * 60);
         }
     };
@@ -83,8 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const portfolioItems = document.querySelectorAll('.portfolio-item');
 
     filterBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            // Remove active from all
+        btn.addEventListener('click', function () {
             filterBtns.forEach(b => b.classList.remove('active'));
             this.classList.add('active');
 
@@ -101,14 +99,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // ===== MODAL =====
+    // ===== MODAL (TEXT) =====
     const modal = document.getElementById('projectModal');
     const modalTitle = document.getElementById('modalTitle');
     const modalDesc = document.getElementById('modalDescription');
     const modalTag = document.getElementById('modalTag');
+    const textContainer = document.getElementById('modalTextContent');
+    const embedContainer = document.getElementById('instagramEmbedContainer');
 
-    window.openModal = function(title, desc, tag) {
+    window.openModal = function (title, desc, tag) {
         playSparkleStream();
+        modal.classList.remove('instagram-active'); 
+        textContainer.style.display = 'block';
+        embedContainer.style.display = 'none';
         modalTitle.innerText = title;
         modalDesc.innerText = desc;
         modalTag.innerText = tag;
@@ -116,12 +119,60 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.style.overflow = 'hidden';
     };
 
-    window.closeModal = function() {
+    // ===== MODAL (INSTAGRAM EMBED – GRID & SCROLL FIXED) =====
+    window.openInstagramModal = function() {
+        playSparkleStream();
+
+        const textContainer = document.getElementById('modalTextContent');
+        const embedContainer = document.getElementById('instagramEmbedContainer');
+        textContainer.style.display = 'none';
+        embedContainer.style.display = 'block';
+
+        const gridContainer = document.getElementById('instagramPostsGrid');
+        gridContainer.innerHTML = '';
+
+        const postUrls = [
+            'https://www.instagram.com/p/DA6Qm52q9jE/?img_index=1',
+            'https://www.instagram.com/p/DHZt-QjtXal/',
+            'https://www.instagram.com/p/DIeaoF5tX54/',
+            'https://www.instagram.com/p/Crs7lMWKTx7/',
+            'https://www.instagram.com/p/DNZArBstxhQ/',
+            'https://www.instagram.com/p/CVh-PY4KXmu/?img_index=1',
+            'https://www.instagram.com/p/CUS2Rs1KSGN/?img_index=1',
+        ];
+
+        postUrls.forEach(url => {
+            const blockquote = document.createElement('blockquote');
+            blockquote.className = 'instagram-media';
+            blockquote.setAttribute('data-instgrm-permalink', url);
+            blockquote.setAttribute('data-instgrm-version', '14');
+            blockquote.innerHTML = `<a href="${url}" target="_blank">View this post on Instagram</a>`;
+            gridContainer.appendChild(blockquote);
+        });
+
+        if (!document.querySelector('script[src="//platform.instagram.com/en_US/embeds.js"]')) {
+            const script = document.createElement('script');
+            script.src = '//platform.instagram.com/en_US/embeds.js';
+            script.async = true;
+            document.head.appendChild(script);
+        } else {
+            if (window.instgrm) {
+                window.instgrm.Embeds.process();
+            }
+        }
+
+        modal.classList.add('active');
+        modal.classList.add('instagram-active'); 
+        document.body.style.overflow = 'hidden';
+    };
+
+    // ===== CLOSE MODAL =====
+    window.closeModal = function () {
         modal.classList.remove('active');
+        modal.classList.remove('instagram-active'); 
         document.body.style.overflow = '';
     };
 
-    // Close modal with Escape
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') closeModal();
     });
