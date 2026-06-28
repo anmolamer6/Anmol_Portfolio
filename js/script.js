@@ -107,6 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const textContainer = document.getElementById('modalTextContent');
     const embedContainer = document.getElementById('instagramEmbedContainer');
     const localGalleryContainer = document.getElementById('localGalleryContainer');
+    const gridContainer = document.getElementById('instagramPostsGrid');
 
     window.openModal = function (title, desc, tag) {
         playSparkleStream();
@@ -121,6 +122,51 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.style.overflow = 'hidden';
     };
 
+    // ===== PRELOAD INSTAGRAM/REELS DATA ON SITE OPEN =====
+    const postUrls = [
+        'https://www.instagram.com/p/DA6Qm52q9jE/?img_index=1',
+        'https://www.instagram.com/p/DHZt-QjtXal/',
+        'https://www.instagram.com/p/DIeaoF5tX54/',
+        'https://www.instagram.com/p/Crs7lMWKTx7/',
+        'https://www.instagram.com/p/DNZArBstxhQ/'
+    ];
+
+    const reelUrls = [
+        'https://www.instagram.com/p/DNg0H-TNPpN/',
+        'https://www.instagram.com/p/DNtJZU8WnL6/',
+        'https://www.instagram.com/p/DOoLXoujc1_/',
+        'https://www.instagram.com/p/DXRawnNjeIx/',
+        'https://www.instagram.com/p/DUYHPUMDZ9M/',
+        'https://www.instagram.com/p/DYekb6XtjZ5/',
+        'https://www.instagram.com/p/DPHCFFKjXtg/'
+    ];
+
+    function buildInstagramEmbeds(urls, typeClass) {
+        if (!gridContainer) return;
+        urls.forEach(url => {
+            const blockquote = document.createElement('blockquote');
+            blockquote.className = `instagram-media ${typeClass}`;
+            blockquote.setAttribute('data-instgrm-permalink', url);
+            blockquote.setAttribute('data-instgrm-version', '14');
+            blockquote.innerHTML = `<a href="${url}" target="_blank">View this post on Instagram</a>`;
+            gridContainer.appendChild(blockquote);
+        });
+    }
+
+    // Initialize the assets immediately when the page finishes loading
+    if (gridContainer) {
+        buildInstagramEmbeds(postUrls, 'ig-image-post');
+        buildInstagramEmbeds(reelUrls, 'ig-reel-post');
+
+        // Load Instagram's embed layout script right away
+        if (!document.querySelector('script[src="//platform.instagram.com/en_US/embeds.js"]')) {
+            const script = document.createElement('script');
+            script.src = '//platform.instagram.com/en_US/embeds.js';
+            script.async = true;
+            document.head.appendChild(script);
+        }
+    }
+
     // ===== MODAL (INSTAGRAM EMBED GRID VIEW - IMAGES) =====
     window.openInstagramModal = function() {
         playSparkleStream();
@@ -132,18 +178,18 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('instagramHeaderTitle').innerText = 'Original Painting Sales';
         document.getElementById('instagramHeaderDesc').innerText = 'Real projects shared on Instagram';
 
-        const gridContainer = document.getElementById('instagramPostsGrid');
-        gridContainer.innerHTML = '';
+        // Toggle visibility: show images, hide reels
+        gridContainer.querySelectorAll('.ig-image-post').forEach(el => el.style.display = '');
+        gridContainer.querySelectorAll('.ig-reel-post').forEach(el => el.style.display = 'none');
 
-        const postUrls = [
-            'https://www.instagram.com/p/DA6Qm52q9jE/?img_index=1',
-            'https://www.instagram.com/p/DHZt-QjtXal/',
-            'https://www.instagram.com/p/DIeaoF5tX54/',
-            'https://www.instagram.com/p/Crs7lMWKTx7/',
-            'https://www.instagram.com/p/DNZArBstxhQ/'
-        ];
+        // Force layout processing if Instagram script is ready (prevents 0px height iframe bugs)
+        if (window.instgrm && window.instgrm.Embeds) {
+            window.instgrm.Embeds.process();
+        }
 
-        loadInstagramEmbeds(postUrls, gridContainer);
+        modal.classList.add('active');
+        modal.classList.add('instagram-active'); 
+        document.body.style.overflow = 'hidden';
     };
 
     // ===== MODAL (INSTAGRAM EMBED GRID VIEW - REELS) =====
@@ -157,35 +203,31 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('instagramHeaderTitle').innerText = 'Personal Brand & Content Creation';
         document.getElementById('instagramHeaderDesc').innerText = 'Storytelling through reels, tutorials & daily life.';
 
-        const gridContainer = document.getElementById('instagramPostsGrid');
-        gridContainer.innerHTML = '';
+        // Toggle visibility: hide images, show reels
+        gridContainer.querySelectorAll('.ig-image-post').forEach(el => el.style.display = 'none');
+        gridContainer.querySelectorAll('.ig-reel-post').forEach(el => el.style.display = '');
 
-        const reelUrls = [
-            'https://www.instagram.com/p/DNg0H-TNPpN/',
-            'https://www.instagram.com/p/DNtJZU8WnL6/',
-            'https://www.instagram.com/p/DOoLXoujc1_/',
-            'https://www.instagram.com/p/DXRawnNjeIx/',
-            'https://www.instagram.com/p/DUYHPUMDZ9M/',
-            'https://www.instagram.com/p/DYekb6XtjZ5/',
-            'https://www.instagram.com/p/DPHCFFKjXtg/'
-        ];
+        // Force layout processing if Instagram script is ready (prevents 0px height iframe bugs)
+        if (window.instgrm && window.instgrm.Embeds) {
+            window.instgrm.Embeds.process();
+        }
 
-        loadInstagramEmbeds(reelUrls, gridContainer);
+        modal.classList.add('active');
+        modal.classList.add('instagram-active'); 
+        document.body.style.overflow = 'hidden';
     };
 
     // ===== MODAL (LOCAL GALLERY VIEWER - NEW FOR COMMUNITY GROWTH) =====
     window.openCommunityGrowthModal = function() {
         playSparkleStream();
 
-        // Toggle elements visibility
         textContainer.style.display = 'none';
         embedContainer.style.display = 'none';
         localGalleryContainer.style.display = 'block';
 
-        const gridContainer = document.getElementById('localGalleryGrid');
-        gridContainer.innerHTML = '';
+        const localGridContainer = document.getElementById('localGalleryGrid');
+        localGridContainer.innerHTML = '';
 
-        // Add your target image filenames here. They will search inside your local img/ folder!
         const images = [
             'img/1.jpeg',
             'img/2.jpeg',
@@ -195,7 +237,6 @@ document.addEventListener('DOMContentLoaded', () => {
             'img/6.jpeg'
         ];
 
-        // Loop through and append image assets safely
         images.forEach(src => {
             const wrapper = document.createElement('div');
             wrapper.className = 'gallery-item-wrapper';
@@ -203,46 +244,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const img = document.createElement('img');
             img.src = src;
             img.alt = 'Community Growth Campaign Metric';
-            // Fail-safe placeholder if image is missing during setup
             img.onerror = function() {
                 this.src = 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=500&q=80';
             };
 
             wrapper.appendChild(img);
-            gridContainer.appendChild(wrapper);
+            localGridContainer.appendChild(wrapper);
         });
-
-        modal.classList.add('active');
-        modal.classList.add('instagram-active'); // Expands width to 960px for a clean wide desktop layout
-        document.body.style.overflow = 'hidden';
-    };
-
-    // Shared Instagram embedding block
-    function loadInstagramEmbeds(urls, container) {
-        urls.forEach(url => {
-            const blockquote = document.createElement('blockquote');
-            blockquote.className = 'instagram-media';
-            blockquote.setAttribute('data-instgrm-permalink', url);
-            blockquote.setAttribute('data-instgrm-version', '14');
-            blockquote.innerHTML = `<a href="${url}" target="_blank">View this post on Instagram</a>`;
-            container.appendChild(blockquote);
-        });
-
-        if (!document.querySelector('script[src="//platform.instagram.com/en_US/embeds.js"]')) {
-            const script = document.createElement('script');
-            script.src = '//platform.instagram.com/en_US/embeds.js';
-            script.async = true;
-            document.head.appendChild(script);
-        } else {
-            if (window.instgrm) {
-                window.instgrm.Embeds.process();
-            }
-        }
 
         modal.classList.add('active');
         modal.classList.add('instagram-active'); 
         document.body.style.overflow = 'hidden';
-    }
+    };
 
     // ===== CLOSE MODAL =====
     window.closeModal = function () {
